@@ -8,21 +8,29 @@
 </head>
 <body>
     <div id="root">
-        <div>{{word}}</div>
-        <form v-on:submit="onSubmitForm">
-            <input type="text" ref="answer" v-model="value">
-            <button type="submit">입력</button>
-        </form>
-        <div>{{result}}</div>
+        <word-relay></word-relay> <!--중복되는 코드를 방지하기 위해-->
+        <word-relay></word-relay>
+        <word-relay></word-relay>
     </div>
 
     <script>
-        const app = new Vue({
-            el: "#root",
-            data: {
+        Vue.component('word-relay', {
+            template: `
+            <div> 
+                <div>{{word}}</div>
+                    <form v-on:submit="onSubmitForm">
+                        <input type="text" ref="answer" v-model="value">
+                        <button type="submit">입력</button>
+                    </form>
+                <div>{{result}}</div> 
+            </div>
+            `, // template는 항상 각각의 요소가 아닌 하나의 최상위 요소로 묶어줘야 한다.
+            data() { // 각각 컴포넌트마다 data가 달라야 하기 때문에 함수형식으로 만들어야 한다.
+                return {
                 word: '권민경',
                 result: '',
                 value: ''
+                }
             },
             methods: {
                 onSubmitForm(e) {
@@ -38,7 +46,18 @@
                     }
                 }
             }
+        })
+    </script>
+
+    <script>
+        const app = new Vue({
+            el: "#root",
         });
+
+    // 반복되는 부분(중복되는 코드)은 component로 만들어라.
+    // component : 같은 것을 rendering하지만 중복은 제거하는 것.
+    // 같은 컴포넌트를 가지고 있지만, 독립적으로 각각의 component는 각각의 data를 가진다.
+
     </script>
 </body>
 </html>

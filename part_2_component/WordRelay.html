@@ -8,13 +8,13 @@
 </head>
 <body>
     <div id="root">
-        <word-relay></word-relay> <!--중복되는 코드를 방지하기 위해-->
-        <word-relay></word-relay>
-        <word-relay></word-relay>
+        <word-relay start-word= "권민경"></word-relay> <!--중복되는 코드를 방지하기 위해-->
+        <word-relay start-word= "제로초"></word-relay> <!--start-word : html에서는 캐멀케이스 사용 x-->
+        <word-relay start-word= "볶음밥"></word-relay>
     </div>
 
     <script>
-        Vue.component('word-relay', {
+        Vue.component('word-relay', { // 전역 component 
             template: `
             <div> 
                 <div>{{word}}</div>
@@ -25,9 +25,10 @@
                 <div>{{result}}</div> 
             </div>
             `, // template는 항상 각각의 요소가 아닌 하나의 최상위 요소로 묶어줘야 한다.
+            props: ['startWord'],
             data() { // 각각 컴포넌트마다 data가 달라야 하기 때문에 함수형식으로 만들어야 한다.
                 return {
-                word: '권민경',
+                word: this.startWord,
                 result: '',
                 value: ''
                 }
